@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>发布订阅</title>
+</head>
+<body>
+  <script>
+    let crop = {
+      list: {},
+      /* 
+        发布
+        @param {string} key 要发布的key
+        @param {function} fn 回调函数
+       */
+      on(key, fn) {
+        if(!this.list[key]) {
+          this.list[key] = [];
+        }
+        this.list[key].push(fn);
+      },
+      /* 
+        订阅
+        @param {string} key 订阅的key
+        @param {anything} payload 传递的参数
+       */
+      emit(key, ...payload) {
+        let fns = this.list[key];
+        console.log(fns);
+
+        if(!fns || fns.length === 0) return;
+        fns.forEach(fn => {
+          fn.apply(this, payload);
+        })
+      },
+      /* 
+        移除发布订阅
+        @param {string} key 要删除的函数 可不传 不传删除所有函数
+        @param {function} fn 指定要删除的函数 可不传 不传删除所有key下面的函数
+       */
+      remove(key, fn) {
+        let fns = this.list[key];
+        if(!key && !fn) {
+          this.list = {};
+          return;
+        }
+
+        if(!fns) return;
+
+        if(!fn) {
+          fns && delete this.list[key];
+        }else {
+          fns.forEach((callback, idx) => {
+            console.log(callback == fn);
+            if(callback === fn) {
+              console.log(1);
+              fns.splice(idx, 1);
+            }
+          })
+        }
+      }
+    }
+    
+    crop.on('user', (name, sex) => {
+      console.log(name, sex, 'my name');
+    });
+    
+    crop.on('join', () => {
+      console.log(true);
+    });
+
+    crop.emit('user', 'jack', 'male'); 
+
+    crop.remove('join');
+
+    console.log(crop);
+  </script>
+</body>
+</html>

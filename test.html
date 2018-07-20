@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>map arr转换</title>
+	</head>
+	
+	<body>
+		<script type="text/javascript">
+			const list = [
+				{name: 'jack', status: false},
+				{name: 'rose', status: true},
+				{name: 'tom', status: false},
+			]
+			
+			const maps = toMap(list, '');
+			console.log(maps);
+			/* 
+				将array转换成map
+				@param {array} arr 要转换的数组
+				@param {string} map中指定的可以 可不传 不传默认使用index作为key
+			 */
+			function toMap(arr = [], key = '') {
+				return new Map(arr.map((node, idx) => [key? node[key] : idx, node]));
+			}
+			/* 
+				map转换为array
+				@param {array} arr 要转换的map
+			 */
+			function toArray(arr = new Map()) {
+				const r = [];
+				for(let [key, value] of arr) {
+					r.push(value);
+				}
+				return r;
+			}
+			
+		</script>
+	</body>
+</html>

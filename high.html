@@ -1,0 +1,72 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>节流</title>
+  </head>
+  <style>
+    .uls li {
+      color: red;
+    }
+  </style>
+  <body>
+    <ul class="uls">
+      <li data-id="1">1</li>
+      <li data-id="2">2</li>
+      <li data-id="3">3</li>
+      <li data-id="4">4</li>
+    </ul>
+    <script>
+      /* 
+        一个分批次添加dom元素的构造类 也可以分批次干别的 有需求改代码
+        @param {array} data 要添加的数组
+        @param {function} callback 回调函数
+        @param {number} payload 每次添加的个数
+        @param {number} waitTime 间隔时间
+       */
+      class Chunk {
+        constructor(data, callback, payload, waitTime) {
+          this.data = data;
+          this.callback = callback;
+          this.payload = payload;
+          this.waitTime = waitTime;
+          this.timer = null;
+        }
+
+        renderData() {
+          const min = Math.min(this.payload, this.data.length);
+          for(let i = 0; i < min; i++) {
+            this.callback(this.data.shift());
+          }
+        }
+
+        start() {
+          this.renderData();
+          this.timer = setInterval(() => {
+            if(this.data.length === 0) clearInterval(this.timer);
+            this.renderData();
+          }, this.waitTime);
+        }
+      }
+      let arr = [];
+      for(let i = 0; i< 10; i++) {
+        arr.push({
+          desc: `我是 ${i}`,
+          index: i
+        });
+      }
+      const render = new Chunk(arr, (item) => {
+        const div = document.createElement('div');
+        div.innerHTML = item.desc;
+        div.setAttribute('data-index', item.index);
+        document.body.appendChild(div);
+      }, 5, 1000);
+      render.start();
+
+      
+    
+    </script>
+  </body>
+  </html>

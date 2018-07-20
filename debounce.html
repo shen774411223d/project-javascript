@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>函数防抖&&函数节流 </title>
+</head>
+<body>
+  <div class="debounce">debounce</div>
+  <div class="throttle">throttle</div>
+  <script>
+    /* 
+      函数防抖
+      @param {function} callback 回调函数
+      @param {number} delay 间隔时间
+      @param {boolean} ready 是否立即执行
+     */
+    function debounce(callback, delay, ready = false) {
+      let timer = null;
+      let timestamp = true;
+      return function() {
+        if(ready && timestamp) {
+          callback.apply(this, arguments);
+          timestamp = false;
+        }
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          callback.apply(this, arguments);
+          timestamp = true;
+          timer = null;
+        }, delay);
+      }
+    }
+    /* 
+      函数节流
+      @param {function} callback 回调函数
+      @param {number} delay 间隔时间
+     */
+    function throttle(callback, delay) {
+      let last = 0;
+      return function() {
+        let now = + new Date();
+        if(now - last > delay) {
+          callback.apply(this, arguments);
+          last = now;
+        }
+      }
+    }
+
+    document.querySelector('.throttle').onclick = throttle(function() {
+      console.log(1);
+    }, 300);
+    document.querySelector('.debounce').onclick = debounce(function() {
+      console.log(true);
+    }, 500, true);
+
+  </script>
+</body>
+</html>

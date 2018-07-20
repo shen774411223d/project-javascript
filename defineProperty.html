@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>mvvm实现</title>
+</head>
+<style>
+  .box {
+    width: 100px;
+    height: 100px;
+    border: 2px solid greenyellow;
+  }
+</style>
+<body>
+  <div id="app">
+    {{child.name}}
+    <div class="box" >{{userInfo.name}}</div>
+    <div>{{class}}</div>
+  </div>
+  
+
+  <script>
+    /* 
+      mvvm的简单实现，还没有完全实现 
+     */
+    function Mvvm(options = {}) {
+      const { data, el } = options;
+      this.$data = data;
+      for(let key in this.$data) {
+        Object.defineProperty(this, key, {
+          configurable: true,
+          get() {
+            return this.$data[key];
+          },
+          set(newVal) {
+            this.$data[key] = newVal;
+          }
+        });
+      }
+      observe(data);
+      new Compile(el, this);
+    }
+
+    function observe(data) {
+      if(!data || typeof data !== 'object') return;
+      new Observe(data);
+    }
+
+    function Observe(data) {
+      for(let key in data) {
+        let val = data[key];
+        observe(val);
+        Object.defineProperty(data, key, {
+          configurable: true,
+          get() {
+            return val;
+          },
+          set(newVal) {
+            console.log(newVal, 'setter');
+            if(val === newVal) return;
+            val = newVal;
+            observe(newVal);
+          }
+        });
+      }
+    }
+
+   
+    function Compile(el, vm) {
+      vm.$el = document.querySelector(el);
+      replace(vm.$el);
+      function replace(arr) {
+        Array.from(arr.childNodes).forEach(node => {
+          const reg = /\{\{(.*?)\}\}/g;
+          if(node.nodeType === 3 && reg.test(node.textContent)) {
+            let REG_S = RegExp.$1.split('.');
+            let val = vm;
+            REG_S.forEach(key => {
+              val = val[key] || node.textContent;
+            });
+            if(val != node.textContent) node.textContent = node.textContent.replace(reg, val).trim();
+          }
+          if(node.childNodes && node.childNodes.length > 0) {
+            replace(node);
+          }
+        });  
+      }
+    }
+
+
+
+    const Vue = new Mvvm({
+      el: '#app',
+      data: {
+        name: 'jack',
+        age: 20,
+        child: {
+          name: 'jacks son'
+        },
+        userInfo: {
+          name: 'rose'
+        }
+      }
+    });
+  
+   
+    
+   
+  </script>
+</body>
+</html>
