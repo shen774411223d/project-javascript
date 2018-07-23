@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    const h = new Proxy({}, {
+      get(target, property) {
+        return function(attrs = {}, ...children) {
+          const el = document.createElement(property);
+          for(let props in attrs) {
+            el.setAttribute(props, attrs[props]);
+          }
+          for(let child of children) {
+            console.log(child);
+            if(typeof child === 'string') {
+              child = document.createTextNode(child);
+            }
+            el.appendChild(child);
+          }
+          return el;
+        }
+      }
+    });
+    const el = h.div({index: 1, id: 10086}, 
+      'hello jack!',
+      h.span({class: 'spans'}, 'i am span')
+    );
+    document.body.appendChild(el);
+    
+    let person = new Proxy({}, {
+      set(target, property, value) {
+        if(property === 'age' && !isNaN(value)) {
+          target[property] = (value >= 0 && value <=120)? value : NaN;
+        }else {
+          throw 'is a Error!';
+        }
+      }
+    });
+    person.age = 20;
+    console.log(person);
+
+   
+  </script>
+</body>
+</html>
