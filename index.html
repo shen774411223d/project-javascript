@@ -6,17 +6,134 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <style>
-    .box {
+    .ul-warp {
+      width: 300px;
+    }
+
+    .ul-warp li {
+      width: 100%;
+      height: 50px;
+      line-height: 50px;
+      list-style: none;
+      margin: 25px 0;
+      cursor: pointer;
+      transition: all .5s;
+      position: relative;
+    }
+
+    .ul-warp li > div {
+      width: 100%;
+      height: 100%;
+    }
+
+    .text {
+      position: absolute;
+      top: 0;
+      z-index: 99;
+    }
+
+    .animate {
+      transition: all .5s;
+      position: absolute;
+      top: 0;
+      z-index: 88;
+    }
+
+    .animate div {
       width: 0;
-      height: 0;
-      border-width: 0 30px 30px;
-      border-color: transparent transparent green;
-      border-style: solid;
+      height: calc(100% / 3);
+      background: skyblue;
+      position: absolute;
+      right: 0;
+      transition: all .5s;
+    }
+
+    .animate div:nth-child(2) {
+      top: calc(100% / 3);
+      left: 0;
+    }
+
+    .animate div:nth-child(3) {
+      top: calc((100% / 3) * 2);
+    }
+
+    .ul-warp li:hover {
+      color: white;
+    }
+
+    .ul-warp li:hover .animate div {
+      width: 100%;
     }
   </style>
 </head>
 <body>
-  <div class="box"></div>
-
+  <ul class="ul-warp">
+    <li>
+      <div class="text">
+        1.不许攀岩 
+      </div>
+      <div class="animate">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </li>
+    <li>
+      <div class="text">
+        2.不许钓鱼 
+      </div>
+      <div class="animate">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </li>
+    <li>
+      <div class="text">
+        3.不许跑步
+      </div>
+      <div class="animate">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </li>
+  </ul>
+  <input type="text"  />
+  <div id="app">
+    <div>123</div>
+  </div>
+  <script>
+    function observe(data) {
+      console.log(data);
+      if(typeof data !== 'object') return data;
+      return new Observe(data);
+    }
+    class Observe {
+      constructor(data) {
+        for(let key in data) {
+          data[key] = observe(data[key]);
+        }
+        return this.proxy(data);
+      }
+      proxy(data) {
+        return new Proxy(data, {
+          get(target, property, receiver) {
+            return Reflect.get(target, property);
+          },
+          set(target, property, value, receiver) {
+            console.log(target, property, value, 'setter');
+            console.log(value);
+            const result = Reflect.set(target, property, value);
+            return result;
+          } 
+        });
+      }
+    }
+    // observe(document.querySelector('#app'));
+    for(let key in document.querySelector('#app')) {
+      console.log(key);
+    }
+  </script>
 </body>
 </html>

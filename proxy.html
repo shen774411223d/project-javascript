@@ -31,9 +31,14 @@
       h.span({class: 'spans'}, 'i am span')
     );
     document.body.appendChild(el);
+
     
     let person = new Proxy({}, {
-      set(target, property, value) {
+      get(target, property) {
+        return target[property];
+      },
+      set(target, property, value, receiver) {
+        console.log(property, 'setter');
         if(property === 'age' && !isNaN(value)) {
           target[property] = (value >= 0 && value <=120)? value : NaN;
         }else {
@@ -42,9 +47,28 @@
       }
     });
     person.age = 20;
-    console.log(person);
 
-   
+    class createWebService {
+      constructor(baseUrl) {
+        return new Proxy({}, {
+          get:(target, property, receiver) => {
+            return (url, config) => {
+              return this.result.apply(null, [property, {url: `${baseUrl}${url}`, config}]);
+            }
+          }
+        });
+      }
+
+      result(method, config) {
+        return new Promise((resolve, reject) => {
+          resolve({ method, config });
+        });
+      }
+    }
+    this.$http = new createWebService('https://www.baidu.com');
+    this.$http.post('/api/userInfo', {user: 'zhangsan', password: 123456}).then(res => {
+      console.log(res);
+    });
   </script>
 </body>
 </html>

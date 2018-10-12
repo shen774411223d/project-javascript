@@ -28,7 +28,7 @@
        */
       emit(key, ...payload) {
         let fns = this.list[key];
-        console.log(fns);
+        console.log(fns, payload);
 
         if(!fns || fns.length === 0) return;
         fns.forEach(fn => {

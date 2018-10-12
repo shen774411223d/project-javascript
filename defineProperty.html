@@ -17,8 +17,9 @@
   <div id="app">
     {{child.name}}
     <div class="box" >{{userInfo.name}}</div>
-    <div>{{class}}</div>
+    <div>{{name}}</div>
   </div>
+  <input type="text" />
   
 
   <script>
@@ -49,12 +50,14 @@
     }
 
     function Observe(data) {
+      let dep = new Dep();
       for(let key in data) {
         let val = data[key];
         observe(val);
         Object.defineProperty(data, key, {
           configurable: true,
           get() {
+            Dep.target && dep.addSub(Dep.target);
             return val;
           },
           set(newVal) {
@@ -62,11 +65,11 @@
             if(val === newVal) return;
             val = newVal;
             observe(newVal);
+            dep.notify();
           }
         });
       }
     }
-
    
     function Compile(el, vm) {
       vm.$el = document.querySelector(el);
@@ -74,13 +77,20 @@
       function replace(arr) {
         Array.from(arr.childNodes).forEach(node => {
           const reg = /\{\{(.*?)\}\}/g;
+          let txt = node.textContent;
           if(node.nodeType === 3 && reg.test(node.textContent)) {
             let REG_S = RegExp.$1.split('.');
             let val = vm;
             REG_S.forEach(key => {
               val = val[key] || node.textContent;
             });
-            if(val != node.textContent) node.textContent = node.textContent.replace(reg, val).trim();
+            if(val != txt) node.textContent = txt.replace(reg, val).trim();
+            new Watcher(vm, RegExp.$1, (newVal) => {
+              if(newVal != node.textContent) { 
+                console.log(RegExp.$1);
+                node.textContent = txt.replace(reg, newVal).trim();
+              }
+            });
           }
           if(node.childNodes && node.childNodes.length > 0) {
             replace(node);
@@ -89,11 +99,45 @@
       }
     }
 
+    function Dep() {
+      this.subs = [];
+    }
 
+    Dep.prototype = {
+      addSub(sub) {
+        this.subs.push(sub);
+      },
+      notify() {
+        this.subs.forEach(sub => sub.update());
+      }
+    }
+
+    function Watcher(vm, exp, fn) {
+      this.fn = fn;
+      this.vm = vm;
+      this.exp = exp;
+      Dep.target = this;
+      let arr = exp.split('.');
+      let val = vm;
+      arr.forEach(key => {
+        val = val[key];
+      });
+      Dep.target = null;
+    }
+
+    Watcher.prototype.update = function(newVal) {
+      let arr = this.exp.split('.');
+      let val = this.vm;
+      arr.forEach(key => {
+        val = val[key];
+      });
+      this.fn(val);
+    }
 
     const Vue = new Mvvm({
       el: '#app',
       data: {
+        list: [],
         name: 'jack',
         age: 20,
         child: {
@@ -104,10 +148,19 @@
         }
       }
     });
-  
-   
+    Vue.$data.name = 'tom';
     
-   
+    document.querySelector('input[type=text]').addEventListener('input', (e) => {
+      Vue.$data.name = e.target.value;
+      console.log(Vue);
+    });
+    Vue.list = {
+      name: 'jack',
+      child: {
+        name: 'tom'
+      }
+    }
+    console.log(Vue);
   </script>
 </body>
 </html>

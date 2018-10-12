@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Reflect</title>
+</head>
+<body>
+  <script>
+    var foo = 111;
+    var bar = 222;
+    const obj = {
+      foo: 1,
+      bar: 2,
+      get baz() {
+        console.log(this);
+        return this.foo + this.bar;
+      }
+    }
+    console.log(Reflect.get(obj, 'baz', this));
+
+    const queuedObservers = new Set();
+    const observe = fn => queuedObservers.add(fn);
+    const observable = obj => new Proxy(obj, {set});
+    function set(target, key, value, receiver) {
+      const result = Reflect.set(target, key, value, receiver);
+      queuedObservers.forEach(observe => observe());
+      return result;
+    }
+    observe(() => {
+      console.log(1234);
+    });
+    observe(() => {
+      console.log(5678);
+    });
+    let ob = observable({});
+    ob.name = 'jack';
+    
+
+
+
+
+    const ooo = {
+      name: 'jack',
+      fn() {
+        console.log(this);
+        setTimeout(function() {
+          console.log(this, 'inner');
+        }, 1); 
+      }
+    }
+    ooo.fn();
+  </script>
+</body>
+</html>
