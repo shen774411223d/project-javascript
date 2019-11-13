@@ -19,7 +19,6 @@ const fetchMsg = (payload) => {
   })
 }
 
-
 export const fetchBaseMsg = function(payload) {
   return async (dispatch) => {
     return fetchMsg(payload).then(result => {
