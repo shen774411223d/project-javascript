@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg } from '../../redux/actions'
 import '../../App.css';
 
-function App(props) {
+function Thunk(props) {
   const { num, msg } = props
 
   function changeMsg() {
@@ -43,4 +43,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStatetoProps,
   mapDispatchToProps
-  )(App)
+  )(Thunk)
