@@ -2,18 +2,22 @@ import React, { useEffect, useRef } from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg } from './redux/actions'
-import { Thunk, Life } from './views'
+import { Thunk, Life, Contexter } from './views'
 import './App.css';
-
 const LINK = [
   {
     path: '/',
-    name: 'thunk',
+    name: 'Thunk',
     isIndex: true
   },
   {
     path: '/life',
-    name: 'life',
+    name: 'Life',
+    isIndex: false
+  },
+  {
+    path: '/contexter',
+    name: 'Contexter',
     isIndex: false
   }
 ]    
@@ -33,7 +37,8 @@ function App(props) {
         <div className="nav-block">{navLink()}</div>
         <Switch>
           <Route exact path="/" component = { Thunk } />
-          <Route exact path="/life" component = { Life } />
+          <Route  path="/life" component = { Life } />
+          <Route path="/contexter" component = { Contexter } />
         </Switch>
       </div>
     </div>

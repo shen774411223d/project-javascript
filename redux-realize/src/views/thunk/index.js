@@ -13,7 +13,8 @@ function Thunk(props) {
   }
 
   function changenNum() {
-    props.setBaseNum(props.num + 1)
+    setBaseNum(props.num + 1)
+    // props.setBaseNum(props.num + 1)
   }
 
   return (

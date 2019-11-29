@@ -5,7 +5,10 @@ const Life = (props) => {
     console.log('load')
   })
   const handleState = () => {
-    setState(state)
+    setState(state + 1)
+    setTimeout(() => {
+      console.log(state)
+    }, 0)
   }
   return (
     <div>

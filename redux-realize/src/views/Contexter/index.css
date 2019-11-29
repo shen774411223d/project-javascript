@@ -1,0 +1,19 @@
+.position-view {
+  height: 300px;
+  overflow: auto;
+  border: 1px solid orange;
+}
+
+.item-view p {
+  width: 100%;
+  padding: 20px 0;
+  border-bottom: 1px solid #989EA4;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  font-size: 24px;
+  font-weight: 500;
+  background: #B8C1C8;
+}
