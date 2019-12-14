@@ -23,6 +23,25 @@ const LINK = [
 ]    
 
 function App(props) {
+  const fetchData = async () => {
+    try {
+      throw 'error'
+      // return {
+      //   name: 'jack'
+      // }
+    }catch(e) {
+      return {
+        err: 'message'
+      }
+    }
+  }
+  useEffect(() => {
+    async function fetcher() {
+      const data = await fetchData()
+      console.log(data, 'fetch data')
+    }
+    fetcher()
+  }, [])
 
   function navLink() {
     return LINK.map(({ path, name }) => {

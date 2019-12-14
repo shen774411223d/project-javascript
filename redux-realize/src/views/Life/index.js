@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
+import './index.css'
+import toast from '../../plugins'
+const t = toast.getInitance()
+console.log(t.getName())
 const Life = (props) => {
   const [state, setState] = useState(0)
-  useEffect(() => {
-    console.log('load')
+  const [show, setShow] = useState(false)
+  const clientRef = useCallback(node => {
+    if(node != null) {
+      console.log(node.getBoundingClientRect())
+      setState(node.getBoundingClientRect().top)
+    }
   })
-  const handleState = () => {
-    setState(state + 1)
-    setTimeout(() => {
-      console.log(state)
-    }, 0)
+  const handleScroll = () => {
+    console.log(state)
   }
+  useEffect(() => {
+    window.addEventListener('resize', handleScroll)
+  }, [])
   return (
     <div>
-      <p>life state: {state}</p>
-      <button onClick = { handleState }>change state</button>
+      <button onClick={() => setShow(true)}>show</button>
+      {show && <div className="life-view"></div>}
+      <div ref={clientRef}>test:{state}</div>
     </div>
   )
 }

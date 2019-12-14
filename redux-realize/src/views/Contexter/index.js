@@ -1,6 +1,5 @@
 import React, { Component, createContext } from 'react'
 import './index.css'
-
 class Contexter extends Component {
   render() {
     return (

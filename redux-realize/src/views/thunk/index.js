@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg } from '../../redux/actions'
 import '../../App.css';
 
+
 function Thunk(props) {
   const { num, msg } = props
 
