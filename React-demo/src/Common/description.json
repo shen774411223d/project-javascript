@@ -1,0 +1,11 @@
+{
+  "0": "state可以return一个函数，这样就可以把setState变成同步。另外要说setState不是所有情况都是异步的。只有在React合成事件中是异步原声事件还是同步的",
+  "1": "这个例子说的是函数式props。props可以传递函数 该例子是将一个组件作为props传递给了Mouse 本质是一个function",
+  "2": "ball 用canvas花了一个波浪球",
+  "3": "routes 展示了router的一些方法和能获取到的信息",
+  "4": "refs 可以通过this.refs.xxx来调用 但是实例必须要在 构造器里：this.xxx = React.createRef()",
+  "6": "高阶组件。可给组件加一系列方法 传入一个组件，返回一个处理过的组件。",
+  "7": "tips 自己写的弹窗 没什么可说的 主要是样式",
+  "8": "Redux的用法 这里直接看README.md吧  太多了说不过来 演示了store的几个方法 首先要导入 import store from './Redux/Store'",
+  "9": "封装了if for循环组件"
+}

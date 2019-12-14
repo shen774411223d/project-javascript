@@ -1,0 +1,29 @@
+
+.reduxer-warp {
+  width: 100%;
+  border: 2px solid gold;
+  padding: 25px;
+  display: flex;
+}
+
+.reduxer-warp > div {
+  flex: 1;
+  border: 1px solid red;
+  padding: 25px 10px;
+}
+
+.reduxer-warp .title {
+  padding-bottom: 20px;
+}
+
+.btn {
+  width: 100%;
+}
+
+.btn-warp {
+  padding-top: 24px;
+}
+
+.filters {
+  padding-top: 20px;
+}

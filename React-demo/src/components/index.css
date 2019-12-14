@@ -1,0 +1,45 @@
+
+.index-route-warp {
+  width: calc(100vw - 200px);
+  height: auto;
+  margin: 0 auto;
+  border: 1px solid grey;
+  margin-top: 10px;
+  display: flex;
+}
+
+.index-route-routers-warp {
+  width: 120px;
+  height: 100%;
+  border-right: 1px solid red;
+  box-sizing: border-box;
+}
+
+.index-route-routers-item {
+  height: 30px;
+  line-height: 30px;
+  list-style: none;
+  background: #f0f0f0;
+  cursor: pointer;
+  transition: all .5s;
+}
+
+.index-route-routers-item:hover {
+  background: gray;
+  color: white;
+}
+
+.index-route-warp ul {
+  padding: 0;
+  margin: 0;
+}
+
+.index-route-content {
+  width: 100%;
+  height: auto;
+}
+
+.index-route-text {
+  font-weight: 500;
+  font-size: 20px;
+}
