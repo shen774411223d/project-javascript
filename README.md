@@ -1,5 +1,8 @@
 
 
+# 为什么创建这个project？
+截止到目前已经工作了两年，两年开发经验中没有形成一种属于文化输出方式。所以想通过写demo+帖子的方式能让更多的人认识我
+
 * # project 项目指南：
   - ## base_methods
     - ### 你能看到什么？
@@ -19,4 +22,3 @@
     - ### 你能看到什么？
       - #### typeScript在react中的使用
       - #### redux-observable（rxjs在redux上的js库）和rxjs的结合使用
-      - #### 如何使用r
