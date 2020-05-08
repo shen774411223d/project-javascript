@@ -10,8 +10,9 @@ import Reduxer from './Reduxer';
 import IndexRoute from './IndexRoute.jsx';
 import Condition from './Condition';
 import Props from './Props';
+import RenderChild from './RenderChild'
 
-export  {
+export {
   Ball,
   RenderProps,
   State,
@@ -22,5 +23,6 @@ export  {
   Reduxer,
   IndexRoute,
   Condition,
-  Props
+  Props,
+  RenderChild
 }

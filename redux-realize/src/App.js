@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Link, useRouteMatch, useHistory, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg } from './redux/actions'
 import { Thunk, Life, Contexter } from './views'
@@ -23,6 +23,10 @@ const LINK = [
 ]    
 
 function App(props) {
+  // const match = useRouteMatch('/')
+  const history = useHistory()
+  const location = useLocation()
+  console.log(history, location, 'match')
   const fetchData = async () => {
     try {
       throw 'error'
@@ -55,9 +59,18 @@ function App(props) {
       <div className="view-block">
         <div className="nav-block">{navLink()}</div>
         <Switch>
-          <Route exact path="/" component = { Thunk } />
-          <Route  path="/life" component = { Life } />
-          <Route path="/contexter" component = { Contexter } />
+          <Route exact path="/">
+            <Thunk />
+          </Route>
+          <Route  path="/life">
+            <Life />
+          </Route>
+          <Route exact path="/contexter">
+            <Contexter index="1" />
+          </Route>
+          <Route exact path="/contexter/:id">
+            <Contexter index="2" />
+          </Route>
         </Switch>
       </div>
     </div>

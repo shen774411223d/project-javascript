@@ -5,10 +5,10 @@ import {
   Redirect,
   Link
 } from 'react-router-dom';
-import { Ball, RenderProps, State, Routes, Refs, High, Tips, Reduxer, IndexRoute, Condition, Props } from './components';
+import { Ball, RenderProps, State, Routes, Refs, High, Tips, Reduxer, IndexRoute, Condition, Props, RenderChild } from './components';
 import logo from './logo.svg';
 import './App.css';
-console.log(process.env);
+console.log(process.env.DOMAIN_BASE);
 class App extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +25,7 @@ class App extends Component {
         {name: 'reduxer', path: '/reduxer', id: 8},
         {name: 'condition', path: '/condition', id: 9},
         {name: 'props', path: '/props', id: 10},
+        {name: 'renderChild', path: '/render-child', id: 11},
       ]
     }
     this.inp = React.createRef();
@@ -78,6 +79,7 @@ class App extends Component {
           <Route path="/reduxer" component = { Reduxer } />
           <Route path="/condition" component = { Condition } />
           <Route path="/props" component = { Props } />
+          <Route path="/render-child" component = { RenderChild } />
           <Redirect to="/" />
           {/* 
             Redirect 重定向 
