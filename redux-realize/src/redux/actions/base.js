@@ -27,3 +27,11 @@ export const fetchBaseMsg = function(payload) {
     })
   }
 }
+
+export const testMsg = function (payload) {
+  return (dispatch) => {
+    // dispatch(setBaseMsg('change value' + Math.random() * 100))
+    dispatch(setBaseNum(Math.random() * 100))
+    // dispatch(setBaseNum(Math.random() * 200))
+  }
+}
