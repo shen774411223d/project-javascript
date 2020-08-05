@@ -28,6 +28,7 @@ const LINK = [
 ]    
 
 function App(props) {
+  console.log(props, 'app props')
   // const match = useRouteMatch('/')
   const history = useHistory()
   const location = useLocation()
@@ -58,9 +59,16 @@ function App(props) {
     })
   }
 
+  const handleActions = () => {
+    props.testMsg()
+    props.testMsg()
+  }
+
+  console.log(props.num, props.msg, 'num msg')
   return (
     <div className="App">
       hello!
+      <button onClick={handleActions}>change actions</button>
       <div className="view-block">
         <div className="nav-block">{navLink()}</div>
         <Switch>
@@ -93,7 +101,8 @@ const mapStatetoProps = (state, ownProps) => {
 const mapDispatchToProps = {
   setBaseMsg,
   setBaseNum,
-  fetchBaseMsg
+  fetchBaseMsg,
+  testMsg
 }
 
 export default connect(
