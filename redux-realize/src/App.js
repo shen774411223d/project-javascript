@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Switch, Route, Link, useRouteMatch, useHistory, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { setBaseMsg, setBaseNum, fetchBaseMsg } from './redux/actions'
+import { setBaseMsg, setBaseNum, fetchBaseMsg, testMsg } from './redux/actions'
 import { Thunk, Life, Contexter, Curry } from './views'
 import './App.css';
 const LINK = [
@@ -28,11 +28,9 @@ const LINK = [
 ]    
 
 function App(props) {
-  console.log(props, 'app props')
   // const match = useRouteMatch('/')
   const history = useHistory()
   const location = useLocation()
-  console.log(history, location, 'match')
   const fetchData = async () => {
     try {
       throw 'error'
@@ -48,7 +46,6 @@ function App(props) {
   useEffect(() => {
     async function fetcher() {
       const data = await fetchData()
-      console.log(data, 'fetch data')
     }
     fetcher()
   }, [])
@@ -64,7 +61,6 @@ function App(props) {
     props.testMsg()
   }
 
-  console.log(props.num, props.msg, 'num msg')
   return (
     <div className="App">
       hello!
