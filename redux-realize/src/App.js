@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { Switch, Route, Link, useRouteMatch, useHistory, useLocation } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg } from './redux/actions'
-import { Thunk, Life, Contexter } from './views'
+import { Thunk, Life, Contexter, Curry } from './views'
 import './App.css';
 const LINK = [
   {
@@ -18,6 +18,11 @@ const LINK = [
   {
     path: '/contexter',
     name: 'Contexter',
+    isIndex: false
+  },
+  {
+    path: '/curry',
+    name: 'Curry',
     isIndex: false
   }
 ]    
@@ -70,6 +75,9 @@ function App(props) {
           </Route>
           <Route exact path="/contexter/:id">
             <Contexter index="2" />
+          </Route>
+          <Route exact path="/curry">
+            <Curry />
           </Route>
         </Switch>
       </div>
