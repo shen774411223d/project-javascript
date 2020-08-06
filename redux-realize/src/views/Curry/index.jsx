@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import mockData from './mockData'
+import { fetchData, url } from './utils'
 import {curry, compose, map, prop} from 'ramda'
 
-const fetchData = curry((callback, url) => {
-  return callback(mockData(url))
-})
+const Io = function(f) {
+  this._value = f
+}
 
-const url = (u) => (`static/${u}`)
+Io.prototype.getValue = function() {
+  return this._value
+}
+
+Io.prototype.map = function(f) {
+  return new Io(compose(f, this._value))
+}
+
+Io.prototype.receviceData = function(data) {
+  console.log(data, 'Io.prototype.receviceData')
+}
 
 const Curry = () => {
   const [imgList, setImgList] = useState([])
@@ -16,7 +26,11 @@ const Curry = () => {
     setImgList(data)
   }
 
-
+  useEffect(() => {
+    const fs = new Io(function() {return window})
+    const app = compose(fs.receviceData, fs.getValue.bind(fs))
+    app()
+  }, [])
 
   useEffect(() => {
     const srcs = compose(prop('img'), prop('details'))
