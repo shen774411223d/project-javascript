@@ -2,22 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { fetchData, url } from './utils'
 import {curry, compose, map, prop} from 'ramda'
 
-const Io = function(f) {
-  this._value = f
-}
-
-Io.prototype.getValue = function() {
-  return this._value
-}
-
-Io.prototype.map = function(f) {
-  return new Io(compose(f, this._value))
-}
-
-Io.prototype.receviceData = function(data) {
-  console.log(data, 'Io.prototype.receviceData')
-}
-
 const Curry = () => {
   const [imgList, setImgList] = useState([])
 
