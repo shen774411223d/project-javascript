@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
-import { Switch, Route, Link, useRouteMatch, useHistory, useLocation } from 'react-router-dom'
+import React from 'react';
+import { Switch, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg, testMsg } from './redux/actions'
-import { Thunk, Life, Contexter, Curry } from './views'
+import { Thunk, Life, Contexter, Curry, Data } from './views'
 import './App.css';
 const LINK = [
   {
@@ -24,31 +24,15 @@ const LINK = [
     path: '/curry',
     name: 'Curry',
     isIndex: false
+  },
+  {
+    path: '/data',
+    name: 'Data',
+    isIndex: false
   }
 ]    
 
 function App(props) {
-  // const match = useRouteMatch('/')
-  const history = useHistory()
-  const location = useLocation()
-  const fetchData = async () => {
-    try {
-      throw 'error'
-      // return {
-      //   name: 'jack'
-      // }
-    }catch(e) {
-      return {
-        err: 'message'
-      }
-    }
-  }
-  useEffect(() => {
-    async function fetcher() {
-      const data = await fetchData()
-    }
-    fetcher()
-  }, [])
 
   function navLink() {
     return LINK.map(({ path, name }) => {
@@ -82,6 +66,9 @@ function App(props) {
           </Route>
           <Route exact path="/curry">
             <Curry />
+          </Route>
+          <Route exact path="/data">
+            <Data />
           </Route>
         </Switch>
       </div>
