@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import './index.css'
 import toast from '../../plugins'
 const t = toast.getInitance()
@@ -17,7 +17,10 @@ const Life = (props) => {
   }
   useEffect(() => {
     window.addEventListener('resize', handleScroll)
-  }, [])
+    return () => {
+      window.removeEventListener('resize', handleScroll)
+    }
+  }, [handleScroll])
   return (
     <div>
       <button onClick={() => setShow(true)}>show</button>
