@@ -103,7 +103,7 @@
     "extends": "react-app"
   },
   "devDependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "quill-image-extend-module": "^1.1.2",
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.3.1",
