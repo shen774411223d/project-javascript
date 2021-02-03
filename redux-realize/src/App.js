@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route, Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setBaseMsg, setBaseNum, fetchBaseMsg, testMsg } from './redux/actions'
-import { Thunk, Life, Contexter, Curry, Data } from './views'
+import { Thunk, Life, Contexter, Curry, Data, Reduxer } from './views'
 import './App.css';
 const LINK = [
   {
@@ -28,6 +28,11 @@ const LINK = [
   {
     path: '/data',
     name: 'Data',
+    isIndex: false
+  },
+  {
+    path: '/reduxer',
+    name: 'Reduxer',
     isIndex: false
   }
 ]    
@@ -69,6 +74,9 @@ function App(props) {
           </Route>
           <Route exact path="/data">
             <Data />
+          </Route>
+          <Route exact path="/reduxer">
+            <Reduxer />
           </Route>
         </Switch>
       </div>

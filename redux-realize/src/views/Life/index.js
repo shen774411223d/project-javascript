@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import './index.css'
 import toast from '../../plugins'
-const t = toast.getInitance()
-console.log(t.getName())
+
 const Life = (props) => {
+  const t = toast.getInitance()
+  console.log(t.getName())
   const [state, setState] = useState(0)
   const [show, setShow] = useState(false)
   const clientRef = useCallback(node => {
