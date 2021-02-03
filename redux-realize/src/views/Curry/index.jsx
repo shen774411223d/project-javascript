@@ -11,12 +11,6 @@ const Curry = () => {
   }
 
   useEffect(() => {
-    const fs = new Io(function() {return window})
-    const app = compose(fs.receviceData, fs.getValue.bind(fs))
-    app()
-  }, [])
-
-  useEffect(() => {
     const srcs = compose(prop('img'), prop('details'))
     const maps = compose(map(srcs), prop('result'))
     const renders = compose(recevice, maps)
