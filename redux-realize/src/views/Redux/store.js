@@ -1,7 +1,22 @@
 
 import React, {createContext} from 'react'
-export const createStore = (reducer, initState = {}) => {
-  let currentState = initState
+
+function compose(...fns) {
+  if (fns.length === 0) return arg => arg    
+  if (fns.length === 1) return fns[0]    
+  return fns.reduce((res, cur) =>(...args) => res(cur(...args)))
+}
+
+export const createStore = (reducer, initState, enhancer) => {
+  if(typeof initState === 'function') {
+    return initState(createStore)(reducer, initState)
+  }
+
+  if(enhancer && typeof enhancer === 'function') {
+    return enhancer(createStore)(reducer, initState)
+  }
+
+  let currentState = initState || {}
   let observers = []
 
   function getState () {
@@ -13,12 +28,35 @@ export const createStore = (reducer, initState = {}) => {
     // 每次执行一次dispatch（也代表着一次state/reducer的更新/执行）就要调用所用订阅者
     observers.forEach(fn => fn())
   }
+
   // 这个观察者/发布订阅写的如此简单，是因为subscribe不需要key做区分。它的作用就是dispatch后被调用
   function subscribe(fn) {
     observers.push(fn)
   }
 
   return {getState, dispatch, subscribe}
+}
+
+
+/**
+ * 中间件的实现比较难懂
+ * eg: const thunk = store => next => action => {}
+ * 中间件的使用是一个嵌套三层的函数
+ */
+export const applyMiddleware = (...middlewares) => createStore => (reducer, initState) => {
+  const Store = createStore(reducer, initState)
+  let {dispatch, getState} = Store
+  const payload = {
+    getState,
+    dispatch: (action) => dispatch(action)
+  }
+
+  // 第一次先将 Store传入中间件
+  const _middlewares = middlewares.map(middleware => middleware(payload))
+  // 第二次利用compose 将写好的中间件（中间件需要return一个值）一步步赋值，直到赋值给最后一个中间件
+  dispatch = compose(..._middlewares)(dispatch)
+  // 第三次直接在页面中使用 === dispatch(action)
+  return {...Store, dispatch}
 }
 
 export const RootContext = createContext({store: null})

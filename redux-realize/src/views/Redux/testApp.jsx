@@ -15,6 +15,20 @@ const setMsg = function(payload) {
   }
 }
 
+const fetchData = (num) => {
+  return (dispatch) => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve('ok')
+        dispatch({
+          type: 'ADD_COUNT',
+          payload: num
+        })
+      }, 500)
+    })
+  }
+}
+
 class TestApp extends React.Component {
   constructor(props) {
     super(props)
@@ -28,6 +42,10 @@ class TestApp extends React.Component {
     this.props.setMsg('hello react!')
   }
 
+  handleFetchData = () => {
+    this.props.fetchData(9)
+  }
+
   render() {
     console.log(this.props)
     const {count, copyMsg} = this.props
@@ -35,6 +53,7 @@ class TestApp extends React.Component {
       <div>
         <h1 onClick={this.handleCount}>test app {count}</h1>
         <button onClick={this.handleMsg}>{copyMsg}</button>
+        <button onClick={this.handleFetchData}>fetch data</button>
       </div>
     )
   }
@@ -47,7 +66,8 @@ const mapStateToProps = (store) => ({
 
 const mapDispatchToProps = {
   addCount,
-  setMsg
+  setMsg,
+  fetchData
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TestApp)
