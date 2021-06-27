@@ -1,0 +1,9 @@
+.img-warp {
+  display: flex;
+  flex-direction: column;
+}
+
+.img-warp img {
+  width: 100px;
+  height: 1000px;
+}

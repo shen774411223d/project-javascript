@@ -8,10 +8,11 @@ function compose(...fns) {
 }
 
 export const createStore = (reducer, initState, enhancer) => {
+  // 第二个参数是可选参数，如果不是initState 就是 applyMiddleware
   if(typeof initState === 'function') {
     return initState(createStore)(reducer, initState)
   }
-
+  // 如果有applyMiddleWare 就要使用 中间件的方式来创建store
   if(enhancer && typeof enhancer === 'function') {
     return enhancer(createStore)(reducer, initState)
   }
@@ -46,13 +47,13 @@ export const createStore = (reducer, initState, enhancer) => {
 export const applyMiddleware = (...middlewares) => createStore => (reducer, initState) => {
   const Store = createStore(reducer, initState)
   let {dispatch, getState} = Store
-  const payload = {
+  const _store = {
     getState,
     dispatch: (action) => dispatch(action)
   }
 
   // 第一次先将 Store传入中间件
-  const _middlewares = middlewares.map(middleware => middleware(payload))
+  const _middlewares = middlewares.map(middleware => middleware(_store))
   // 第二次利用compose 将写好的中间件（中间件需要return一个值）一步步赋值，直到赋值给最后一个中间件
   dispatch = compose(..._middlewares)(dispatch)
   // 第三次直接在页面中使用 === dispatch(action)

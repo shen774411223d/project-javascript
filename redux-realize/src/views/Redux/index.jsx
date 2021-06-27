@@ -10,7 +10,7 @@ const vnodes = createElement(
   {style: {'border': '1px solid yellow'}},
   [
     createElement('button', {disabled: true}, '立即购买'),
-    createElement('div', {style: {color: 'red'}}, '价格99')
+    createElement('div', {style: {color: 'red'}}, '价格99'),
   ]
 )
 console.log(vnodes)

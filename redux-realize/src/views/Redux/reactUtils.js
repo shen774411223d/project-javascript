@@ -71,7 +71,6 @@ const diffProps = (el, key, value) => {
     el.addEventListener(eventKey, value)
     return
   }
-  console.log(key)
   switch(key) {
     case 'className':
       el.className = value
